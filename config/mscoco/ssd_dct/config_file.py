@@ -44,9 +44,9 @@ class TrainingConfiguration(object):
         self._loss = SSDLoss(neg_pos_ratio=3, alpha=1.0).compute_loss
         self._metrics = None
         dataset_path = environ["DATASET_PATH"]
-        self.train_image_dir = join(dataset_path, "train2017")
+        self.train_image_dir = join(dataset_path, "val2017")
         self.train_annotation_path = join(
-            dataset_path, "annotations/instances_train2017.json")
+            dataset_path, "annotations/instances_val2017.json")
         self.validation_image_dir = join(dataset_path, "val2017")
         self.validation_annotation_path = join(
             dataset_path, "annotations/instances_val2017.json")

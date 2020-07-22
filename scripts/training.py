@@ -6,7 +6,6 @@ import argparse
 import string
 import random
 import csv
-
 from operator import itemgetter
 
 import keras.backend as K
@@ -56,7 +55,10 @@ if args.restart:
 else:
     # Load configuration file
     sys.path.append(args.configuration)
-    from config_file import TrainingConfiguration
+    from config.imagenet.vgg16_dct.config_file import TrainingConfiguration
+    # from config.mscoco.ssd_dct.config_file import TrainingConfiguration
+
+    # from config_file import TrainingConfiguration
     config = TrainingConfiguration()
 
     # Generate random key for experiment.

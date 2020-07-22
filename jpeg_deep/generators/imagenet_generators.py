@@ -43,14 +43,16 @@ def prepare_imagenet(index_file, data_directory):
 
     # We process the data directory to get all the classes and images
     classes = []
+    for i in data.keys():
+        classes.append(data[i][0])
     images_path = []
 
     for directory in tqdm(os.listdir(data_directory)):
         class_directory = os.path.join(data_directory, directory)
         if os.path.isdir(class_directory):
-            classes.append(directory)
-            for image in os.listdir(class_directory):
-                image_path = os.path.join(class_directory, image)
+            # classes.append(directory)
+            for image in os.listdir(os.path.join(class_directory,"images")):
+                image_path = os.path.join(class_directory,"images", image)
                 images_path.append(image_path)
 
     return association, classes, images_path
@@ -197,7 +199,8 @@ class DCTGeneratorJPEG2DCT(Sequence):
             # Get the index of the class for later usage
             last_slash = self.images_path[k].rfind("/")
             second_last_slash = self.images_path[k][:last_slash].rfind("/")
-            index_class = self.images_path[k][second_last_slash + 1:last_slash]
+            index_class = self.images_path[k].split("/")[-3]
+            # index_class = self.images_path[k].replace("images/","")[second_last_slash + 1:last_slash]
 
             # Load the image
             img = cv2.imread(self.images_path[k])
