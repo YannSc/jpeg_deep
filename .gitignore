@@ -109,3 +109,5 @@ testing.sh
 *.txt
 
 docs/sources/**
+*.pdf
+*.ipynb

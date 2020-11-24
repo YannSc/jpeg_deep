@@ -8,6 +8,7 @@ from keras.callbacks import ModelCheckpoint, TerminateOnNaN, EarlyStopping, Redu
 from jpeg_deep.networks import SSD300
 from jpeg_deep.generators import VOCGenerator
 from jpeg_deep.evaluation import PascalEvaluator
+from jpeg_deep.displayer import DisplayerObjects
 
 from jpeg_deep.generators import SSDInputEncoder
 from jpeg_deep.transformations import SSDDataAugmentation, ConvertTo3Channels, Resize
@@ -18,7 +19,7 @@ class TrainingConfiguration(object):
 
     def __init__(self):
         # Variables to hold the description of the experiment
-        self.config_description = "This is the template config file."
+        self.config_description = ""
 
         # System dependent variable
         self._workers = 5
@@ -67,7 +68,7 @@ class TrainingConfiguration(object):
 
         self.input_encoder = SSDInputEncoder()
 
-        self.train_tranformations = [SSDDataAugmentation()]
+        self.train_transformations = [SSDDataAugmentation()]
         self.validation_transformations = [
             ConvertTo3Channels(), Resize(height=300, width=300)]
         self.test_transformations = [ConvertTo3Channels(), Resize(
@@ -78,6 +79,7 @@ class TrainingConfiguration(object):
         self._test_generator = None
 
         self._horovod = None
+        self._displayer = DisplayerObjects()
 
     def prepare_runtime_checkpoints(self, directories_dir):
         log_dir = directories_dir["log_dir"]
@@ -134,7 +136,7 @@ class TrainingConfiguration(object):
 
     def prepare_training_generators(self):
         self._train_generator = VOCGenerator(batch_size=self.batch_size, shuffle=True, label_encoder=self.input_encoder, dct=True,
-                                             transforms=self.train_tranformations, images_path=self.train_sets)
+                                             transforms=self.train_transformations, images_path=self.train_sets)
         self._train_generator.prepare_dataset()
         self._validation_generator = VOCGenerator(batch_size=self.batch_size, shuffle=True, label_encoder=self.input_encoder, dct=True,
                                                   transforms=self.validation_transformations, images_path=self.validation_sets)

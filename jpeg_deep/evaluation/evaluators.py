@@ -45,7 +45,7 @@ class Evaluator(object):
 
         self.score = model.evaluate_generator(self._generator, verbose=1)
 
-    def model_speed(self, model:object, test_generator:object=None, number_of_runs:int=10, iteration_per_run:int=200, verbose:bool=False):
+    def model_speed(self, model:object, test_generator:object=None, number_of_runs:int=10, iteration_per_run:int=200, verbose:bool=True):
         """ Compute the speed of the network in FPS.
 
         # Arguments:
@@ -199,7 +199,7 @@ class PascalEvaluator(object):
 
         # compute the mAP
         mean_average_precision = self.compute_mean_average_precision(
-            average_precisions, ret=True)
+            average_precisions)
 
         print(average_precisions)
         print(mean_average_precision)
