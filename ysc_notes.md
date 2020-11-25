@@ -24,3 +24,8 @@ Etapes :
 	- trouver bottlenecks
 	- utiliser jpeg2dct TF, comparer
 	- exporter TensorRT
+
+
+- Tests
+
+Besoin d'installer lxml pour faire fonctionner beautifulSoup

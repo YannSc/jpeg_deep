@@ -1,6 +1,6 @@
 import sys
 
-from os.path import join
+from os.path import join, exists
 
 from copy import deepcopy
 from io import BytesIO
@@ -80,8 +80,10 @@ class VOCGenerator(object):
                 files = [file.rstrip() for file in f.readlines()]
 
             for filename in files:
-                self.images_path.append(
-                    join(image_dir, filename + ".jpg"))
+                if exists(join(image_dir, filename + ".jpg")):
+
+                    self.images_path.append(
+                        join(image_dir, filename + ".jpg"))
 
         self.images_path = self.images_path
         self.split_cbcr = split_cbcr
@@ -260,11 +262,13 @@ class VOCGenerator(object):
         it = tqdm(self.images_path,
                   desc='Preparing the dataset', file=sys.stdout)
         for filename in it:
-
-            boxes, flagged_boxes = parse_xml_voc(filename.replace(
-                "JPEGImages", "Annotations").replace("jpg", "xml"), exclude_difficult=exclude_difficult)
-            self.labels.append(boxes)
-            self.flagged_boxes.append(flagged_boxes)
+            try:
+                boxes, flagged_boxes = parse_xml_voc(filename.replace(
+                    "JPEGImages", "Annotations").replace("jpg", "xml"), exclude_difficult=exclude_difficult)
+                self.labels.append(boxes)
+                self.flagged_boxes.append(flagged_boxes)
+            except:
+                pass
 
     def get_raw_input_label(self, index):
         """ Should return the raw input at a given batch index, i.e something displayable.
