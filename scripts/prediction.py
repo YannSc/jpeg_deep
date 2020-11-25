@@ -13,7 +13,7 @@ args = parser.parse_args()
 
 # We reload the config to get everything as in the experiment
 sys.path.append(join(args.experiment, "config"))
-from temp_config import TrainingConfiguration
+from config.pascalvoc.ssd.dct.dct_07.config_file import TrainingConfiguration
 config = TrainingConfiguration()
 
 # Loading the model, for prepare for inference if required
