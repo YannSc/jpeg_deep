@@ -132,7 +132,7 @@ class TrainingConfiguration(object):
         self._evaluator = PascalEvaluator()
 
     def prepare_testing_generator(self):
-        self._test_generator = VOCGenerator(batch_size=1, shuffle=False, label_encoder=self.input_encoder,
+        self._test_generator = VOCGenerator(batch_size=self.batch_size, shuffle=False, label_encoder=self.input_encoder,
                                             transforms=self.test_transformations, images_path=self.test_sets)
         self._test_generator.prepare_dataset()
 

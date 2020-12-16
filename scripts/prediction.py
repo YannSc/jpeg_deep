@@ -58,8 +58,8 @@ for i in tqdm(range(100)):
 
     y_pred = model_rgb.predict(X)
 
-# print("Disabling NMS...")
-#
+print("Disabling NMS...")
+
 # model_dct_no_nms = TC_DCT()
 # model_dct_no_nms = prep_model(config_dct, skip_nms=True)
 # # Getting the batch to process
