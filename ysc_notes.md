@@ -39,8 +39,24 @@ Problème de resize systematique des images ?
 /home/ysc/projects/APT/AIXOM/jpeg_deep/venv2/bin/python3.7 /home/ysc/projects/APT/AIXOM/jpeg_deep/scripts/prediction.py  /mnt/dcaf7e38-46ed-4126-a9a1-7d80df393639/Sandbox /mnt/dcaf7e38-46ed-4126-a9a1-7d80df393639/weights/jpeg_deep/detection_dct/vgg/07/ssd_jpeg_deep_5gElSUOnUPiFuifcgcOOxLhBNC3TZRak/checkpoints/epoch-47_loss-4.5323_val_loss-6.5883.h5 /mnt/dcaf7e38-46ed-4126-a9a1-7d80df393639/weights/jpeg_deep/detection_rgb/vgg/own_training/07/ssd_jpeg_deep_3pQjrAJq2vapGVtHzUzhATLoSvVwWAYq/checkpoints/epoch-37_loss-3.7112_val_loss-6.2008.h5
 
 ### Tests de throughput
-Througput DCT w NMS : 152.15985686322264 imgs/s
-Througput RGB w NMS : 90.90917871909308 imgs/s
+(1x GTX 1080)
 
-Througput DCT w/o NMS: 227.01979690667082 imgs/s
-Througput RGB w/o NMS : 108.72085665239989 imgs/s
+Batch size = 8
+  Througput DCT w NMS : 101.88435107309694 imgs/s
+  Througput RGB w NMS : 69.84226038189922 imgs/s
+  Througput DCT w/o NMS : 146.93217555676733 imgs/s
+  Througput RGB w/o NMS : 91.93245584570333 imgs/s
+
+
+Batch size = 32
+  Througput DCT w NMS : 152.15985686322264 imgs/s
+  Througput RGB w NMS : 90.90917871909308 imgs/s
+  
+  Througput DCT w/o NMS: 227.01979690667082 imgs/s
+  Througput RGB w/o NMS : 108.72085665239989 imgs/s
+
+Batch size = 128
+  Througput DCT w NMS : 166.3404487886101 imgs/s
+  Througput RGB w NMS : 93.92361192642025 imgs/s
+  Througput DCT w/o NMS : 242.3443284639605 imgs/s
+  Througput RGB w/o NMS : 107.56113791885736 imgs/s
