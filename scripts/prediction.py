@@ -48,7 +48,6 @@ for i in tqdm(range(100)):
 
     y_pred = model_dct.predict(X)
 
-
 model_rgb = prep_model(config_rgb, weights=args.weights_rgb)
 X, _ = config_rgb.test_generator.__getitem__(0)
 # If the input is not a displayable stuff, get the displayable
