@@ -21,7 +21,7 @@ config_dct = TC_DCT()
 from config.pascalvoc.ssd.rgb.rgb_07.config_file import TrainingConfiguration as TC_RGB
 config_rgb = TC_RGB()
 
-def prep_model(config, weights, skip_nms = False):
+def prep_model(config, weights, skip_nms = True):
     if (skip_nms):
         config.prepare_for_inference_no_NMS()
     else:
