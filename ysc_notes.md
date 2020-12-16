@@ -29,3 +29,6 @@ Etapes :
 - Tests
 
 Besoin d'installer lxml pour faire fonctionner beautifulSoup
+
+16/12 - Comparaison RGB / DCT -> goulot en prédiciton pour DCT (5it/s vs 30 it/s pour RGB)
+Problème de resize systematique des images ?
