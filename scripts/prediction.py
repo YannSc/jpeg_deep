@@ -1,3 +1,5 @@
+import datetime
+import time
 from os import getcwd
 from os.path import join
 from tqdm import tqdm
@@ -21,7 +23,7 @@ config_dct = TC_DCT()
 from config.pascalvoc.ssd.rgb.rgb_07.config_file import TrainingConfiguration as TC_RGB
 config_rgb = TC_RGB()
 
-def prep_model(config, weights, skip_nms = True):
+def prep_model(config, weights, skip_nms = False):
     if (skip_nms):
         config.prepare_for_inference_no_NMS()
     else:
@@ -37,16 +39,24 @@ def prep_model(config, weights, skip_nms = True):
     config.test_generator.shuffle = True
     return model
 
+nb_iter = 100
 model_dct = prep_model(config_dct,weights=args.weights_dct)
 # Getting the batch to process
 X, _ = config_dct.test_generator.__getitem__(0)
 # If the input is not a displayable stuff, get the displayable
 X_true, y = config_dct.test_generator.get_raw_input_label(0)
 
+time_start_dct= datetime.datetime.now()
 print("Start DCT inference test")
 for i in tqdm(range(100)):
 
     y_pred = model_dct.predict(X)
+
+time_end_dct= datetime.datetime.now()
+delta_dct = (time_end_dct - time_start_dct).total_seconds()
+throughput = config_dct._batch_size * nb_iter / delta_dct
+print ("Througput DCT : {} imgs/s".format(throughput))
+
 
 model_rgb = prep_model(config_rgb, weights=args.weights_rgb)
 X, _ = config_rgb.test_generator.__getitem__(0)
@@ -54,20 +64,12 @@ X, _ = config_rgb.test_generator.__getitem__(0)
 X_true, y = config_rgb.test_generator.get_raw_input_label(0)
 
 print("Start RGB inference test")
+time_start_rgb= datetime.datetime.now()
+
 for i in tqdm(range(100)):
 
     y_pred = model_rgb.predict(X)
-
-print("Disabling NMS...")
-
-# model_dct_no_nms = TC_DCT()
-# model_dct_no_nms = prep_model(config_dct, skip_nms=True)
-# # Getting the batch to process
-# X, _ = config_dct.test_generator.__getitem__(0)
-# # If the input is not a displayable stuff, get the displayable
-# X_true, y = config_dct.test_generator.get_raw_input_label(0)
-#
-# print("Start DCT inference test")
-# for i in tqdm(range(50)):
-#
-#     y_pred = model_dct_no_nms.predict(X)
+time_end_rgb= datetime.datetime.now()
+delta_rgb  = (time_end_rgb - time_start_rgb).total_seconds()
+throughput_rgb = config_rgb._batch_size * nb_iter / delta_rgb
+print ("Througput RGB : {} imgs/s".format(throughput_rgb))
