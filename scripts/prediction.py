@@ -1,5 +1,6 @@
 from os import getcwd
 from os.path import join
+from tqdm import tqdm
 
 import argparse
 import sys
@@ -19,10 +20,12 @@ config_dct = TC_DCT()
 from config.pascalvoc.ssd.rgb.rgb_07.config_file import TrainingConfiguration as TC_RGB
 config_rgb = TC_RGB()
 
-def prep_model(config):
-
-# Loading the model, for prepare for inference if required
-    config.prepare_for_inference()
+def prep_model(config, skip_nms = False):
+    if (skip_nms):
+        config.prepare_for_inference_no_NMS()
+    else:
+    # Loading the model, for prepare for inference if required
+        config.prepare_for_inference()
     config.network.load_weights(args.weights)
     model = config.network
     model.compile(loss=config.loss,
@@ -33,26 +36,38 @@ def prep_model(config):
     config.test_generator.shuffle = True
     return model
 
-model_dct = prep_model(config_dct)
+# model_dct = prep_model(config_dct)
+# # Getting the batch to process
+# X, _ = config_dct.test_generator.__getitem__(0)
+# # If the input is not a displayable stuff, get the displayable
+# X_true, y = config_dct.test_generator.get_raw_input_label(0)
+#
+# print("Start DCT inference test")
+# for i in tqdm(range(50)):
+#
+#     y_pred = model_dct.predict(X)
+#
+#
+# # model_rgb = prep_model(config_rgb)
+# # X, _ = config_dct.test_generator.__getitem__(0)
+# # # If the input is not a displayable stuff, get the displayable
+# # X_true, y = config_dct.test_generator.get_raw_input_label(0)
+# #
+# # print("Start RGB inference test")
+# # for i in tqdm(range(50)):
+# #
+# #     y_pred = model_dct.predict(X)
+
+print("Disabling NMS...")
+
+model_dct_no_nms = TC_DCT()
+model_dct_no_nms = prep_model(config_dct, skip_nms=True)
 # Getting the batch to process
 X, _ = config_dct.test_generator.__getitem__(0)
 # If the input is not a displayable stuff, get the displayable
 X_true, y = config_dct.test_generator.get_raw_input_label(0)
 
 print("Start DCT inference test")
-i = 0
-while (i<2000):
+for i in tqdm(range(50)):
 
-    y_pred = model_dct.predict(X)
-
-
-model_rgb = prep_model(config_rgb)
-X, _ = config_dct.test_generator.__getitem__(0)
-# If the input is not a displayable stuff, get the displayable
-X_true, y = config_dct.test_generator.get_raw_input_label(0)
-
-print("Start RGB inference test")
-i = 0
-while (i<2000):
-
-    y_pred = model_dct.predict(X)
+    y_pred = model_dct_no_nms.predict(X)

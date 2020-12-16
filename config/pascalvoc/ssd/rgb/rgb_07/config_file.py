@@ -124,6 +124,10 @@ class TrainingConfiguration(object):
         K.clear_session()
         self._network = SSD300(mode="inference")
 
+    def prepare_for_inference_no_NMS(self):
+        K.clear_session()
+        self._network =   self._network = SSD300(mode="training")
+
     def prepare_evaluator(self):
         self._evaluator = PascalEvaluator()
 
