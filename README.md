@@ -34,8 +34,10 @@ source jpeg_deep/bin/activate
 cd ..
 
 # Installing all the dependencies (the code was tested with the specified version numbers on python 3.+)
-pip install keras
+#Vérifié sous Python 3.7
+pip install keras==2.3.1
 pip install tensorflow-gpu==1.14.0
+pip install h5py==2.10.0
 pip install pillow
 pip install opencv-python
 pip install jpeg2dct
@@ -46,6 +48,7 @@ pip install cython
 pip install pycocotools
 pip install matplotlib
 pip install lxml
+pip install jpeg2dct
 ```
 
 ## Training
